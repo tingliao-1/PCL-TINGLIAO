@@ -1,0 +1,132 @@
+<local:MyPageRight
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:PCL" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" x:Class="PageSetupLink"
+    PanScroll="PanBack">
+    <local:MyScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" x:Name="PanBack">
+        <StackPanel x:Name="PanMain" Margin="25,25,25,10">
+
+            <!-- 1. 房间设置 -->
+            <local:MyCard Title="房间" Margin="0,0,0,15">
+                <StackPanel Margin="25,40,25,20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Name" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="28" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="28" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="28" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" VerticalAlignment="Center" Text="玩家昵称" Margin="0,0,25,0" />
+                        <local:MyTextBox Grid.Row="0" Grid.Column="1" local:SettingService.Key="LinkPlayerName"
+                                         HintText="默认使用当前登录角色名" MaxLength="16"
+                                         ToolTip="在联机房间中向其他玩家展示的昵称，留空则自动使用当前游戏角色的名称。" />
+
+                        <TextBlock Grid.Row="2" VerticalAlignment="Center" Text="局域网房间名" Margin="0,0,25,0" />
+                        <local:MyTextBox Grid.Row="2" Grid.Column="1" local:SettingService.Key="LinkLanName"
+                                         HintText="默认：Plain Craft 局域网世界" MaxLength="48"
+                                         ToolTip="对方在 Minecraft 多人游戏列表中看到的房间标题。" />
+
+                        <TextBlock Grid.Row="4" VerticalAlignment="Center" Text="本地绑定端口" Margin="0,0,25,0" />
+                        <local:MyTextBox Grid.Row="4" Grid.Column="1" local:SettingService.Key="LinkLocalPort"
+                                         HintText="0（自动随机分配）" MaxLength="5"
+                                         ToolTip="指定本机监听的游戏映射端口。若无特殊穿透需求，请保持 0 自动分配即可。" />
+                    </Grid>
+
+                    <local:MyCheckBox Margin="0,14,0,0" local:SettingService.Key="LinkAutoOpenLan"
+                                      Text="自动开放局域网"
+                                      ToolTip="房主加载单人世界后，自动侦测并建立局域网世界，免去复杂的外部映射流程。" />
+                    <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkAutoCopyCode"
+                                      Text="开启房间后自动复制邀请码"
+                                      ToolTip="创建房间成功后，自动将房间专属邀请码复制到剪贴板，方便直接粘贴发给好友。" />
+                    <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkDetectClipboard"
+                                      Text="自动识别剪贴板邀请码"
+                                      ToolTip="打开启动器联机页面时，如果剪贴板中存在房间邀请码，将自动识别并预填到加入输入框。" />
+                </StackPanel>
+            </local:MyCard>
+
+            <!-- 2. 网络与节点 -->
+            <local:MyCard Title="网络与节点" Margin="0,0,0,15">
+                <StackPanel Margin="25,40,25,20">
+                    <local:MyCheckBox local:SettingService.Key="LinkAllowRelay" x:Name="CheckAllowRelay"
+                                      Text="允许节点中转"
+                                      ToolTip="当两名玩家因对称 NAT 等复杂网络环境无法建立 P2P 直连时，允许通过公共或自建中转节点转发加密流量以保证连通性。" />
+                    <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkShareWithLan"
+                                      Text="向物理局域网广播"
+                                      ToolTip="开启房间后，向本机连接的物理子网（同一 WiFi / 交换机）发送局域网广播。处于同局域网的室友无需启动 PCL 联机也能直接在游戏中搜到房间。" />
+
+                    <Grid Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Name" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center" Text="自定义节点" Margin="0,0,25,0" />
+                        <local:MyTextBox Grid.Column="1" local:SettingService.Key="LinkCustomNodes" MaxHeight="28"
+                                         HintText="留空使用社区公共节点，多个节点用逗号分隔"
+                                         ToolTip="连接到指定的自建 EasyTier 节点。例如：tcp://node.example.com:11010,udp://node2.example.com:11010&#xa;房主与加入者必须连接到至少一个相同的节点才能完成信令握手。" />
+                    </Grid>
+                </StackPanel>
+            </local:MyCard>
+
+            <!-- 3. 模组同步 -->
+            <local:MyCard Title="模组同步" Margin="0,0,0,15">
+                <StackPanel Margin="25,40,25,20">
+                    <local:MyCheckBox local:SettingService.Key="LinkShareMods" x:Name="CheckShareMods"
+                                      Text="允许访客同步我的模组"
+                                      ToolTip="作为房主时，允许连接的访客扫描并同步你当前的 Mods 模组清单，确保双方模组版本严格一致。" />
+                    <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkServeMods" x:Name="CheckServeMods"
+                                      Text="允许访客从我这里下载模组"
+                                      ToolTip="当访客缺失的模组无法在 Modrinth / CurseForge 下载时，允许其直接通过 P2P 隧道向你的电脑分块下载该模组的 jar 文件。" />
+                </StackPanel>
+            </local:MyCard>
+
+            <!-- 4. 隐私与安全 -->
+            <local:MyCard Title="隐私与安全" Margin="0,0,0,15">
+                <StackPanel Margin="25,40,25,20">
+                    <local:MyCheckBox local:SettingService.Key="LinkHideAddress" x:Name="CheckHideAddress"
+                                      Text="隐藏我的真实 IP 地址"
+                                      ToolTip="强制所有数据流量均经由中转节点转发，彻底禁止 P2P 直连与打洞探测，房间内其他陌生玩家将无法获知你的真实网络 IP。" />
+                    <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkReadGameAccount"
+                                      Text="读取当前正版角色身份"
+                                      ToolTip="自动从游戏进程读取玩家的正版 UUID，以便在房间内展示正版认证标识。" />
+                    <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkShowSkins"
+                                      Text="显示正版玩家皮肤头像"
+                                      ToolTip="直接通过 Mojang 官方源获取正版玩家的高清头像并在房间玩家列表中呈现。" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                        <local:MyButton MinWidth="150" Padding="13,5" Text="重置本机设备特征码" x:Name="BtnResetMachineId" />
+                    </StackPanel>
+                </StackPanel>
+            </local:MyCard>
+
+            <!-- 5. 黑名单管理 -->
+            <local:MyCard Title="黑名单管理" Margin="0,0,0,15">
+                <StackPanel Margin="25,40,25,20">
+                    <TextBlock FontSize="12" Foreground="{StaticResource ColorBrushGray2}" TextWrapping="Wrap"
+                               Text="以下玩家已被你拉黑。被拉黑的设备将无法进入你创建的任何联机房间，且在游戏内也会被自动拦截。" />
+                    <StackPanel x:Name="PanBlockedList" Margin="0,10,0,0" />
+                    <TextBlock x:Name="LabNoBlocked" Text="当前暂无被拉黑的玩家" Margin="0,10,0,0" Foreground="{StaticResource ColorBrushGray3}" />
+                </StackPanel>
+            </local:MyCard>
+
+            <!-- 6. 存储与维护 -->
+            <local:MyCard Title="存储与维护" Margin="0,0,0,15">
+                <StackPanel Margin="25,40,25,20">
+                    <StackPanel Orientation="Horizontal">
+                        <local:MyButton MinWidth="140" Padding="13,5" Margin="0,0,20,0" Text="打开联机数据目录" x:Name="BtnOpenData"
+                                        ToolTip="打开存储联机配置、日志、黑名单及内核组件的本地文件夹。" />
+                        <local:MyButton MinWidth="140" Padding="13,5" Text="清理内核组件缓存" x:Name="BtnCleanCache"
+                                        ToolTip="删除本地下载的 EasyTier 内核二进制。下次启动联机时将按需重新校验拉取。" />
+                    </StackPanel>
+                </StackPanel>
+            </local:MyCard>
+
+        </StackPanel>
+    </local:MyScrollViewer>
+</local:MyPageRight>
