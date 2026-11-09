@@ -1,8 +1,5 @@
-# Plain Craft Launcher 2 (PCL2)
-
+PCL-TINGLIAO
 <p align="center">
-  <img src="Plain Craft Launcher 2/Images/Icons/Logo.png" alt="PCL2 Logo" width="128" height="128" />
-</p>
 
 <p align="center">
   <strong>一款高效、美观、高容灾的现代化 Minecraft 启动器</strong><br>
