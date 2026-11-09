@@ -1,8 +1,8 @@
-PCL-TINGLIAO
+
 <p align="center">
 
 <p align="center">
-  <strong>一款高效、美观、高容灾的现代化 Minecraft 启动器</strong><br>
+  <strong>PCL-TINGLIAO：一款高效、美观、高容灾的现代化 Minecraft 启动器</strong><br>
   <sub>全域深度加固版 · 去中心化 P2P 联机 2.0 · TOFU 设备指纹安全准入 · 游戏版本审核与智能自愈</sub>
 </p>
 
