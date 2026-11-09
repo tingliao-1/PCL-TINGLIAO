@@ -174,33 +174,6 @@ flowchart TD
 4. **可执行产物输出**：
    * 构建成功的独立主执行文件位于：`Plain Craft Launcher 2\bin\Plain Craft Launcher 2.exe`
 
----
-
-## 🧪 自动化回归测试体系 (Automated Test Suites)
-
-为确保全域重构不破坏任何既有功能，项目内嵌了双套完整的端到端自动化测试套件，涵盖 **217 项综合测试**，每次构建均保持 100% 通过率。
-
-### 1. 核心支柱回归套件 (`TestLauncherAllFeatures.exe`) —— 153 项测试
-* **联机模块 (EasyTier & P2P)**：架构适配、TOML 免驱动配置、邀请码加解密防伪、UDP 组播欺骗、LinkSession 状态机、JobObject 进程生命周期、DTO 权限视差矩阵、TOFU 设备特征码绑定与冒名拦截、断电截断自愈、细分信令换机重绑、网络适配器检测。
-* **版本审核与自愈模块**：`GameVersionInfo` 解析序列化、原版/Fabric/Forge/NeoForge/Quilt 兼容矩阵、命令行参数加载器逆向提取、`c:game_version` 端到端 RPC 握手通信。
-* **下载引擎模块**：官方源/BMCLAPI 智能重写路由、真实网络版本清单 (Version Manifest) 拉取解析、1.20.1 Client.json 与类库元数据提取、SHA-1 完整性校验。
-* **游戏启动引擎模块**：多格式 Java 版本提取算法、Minecraft 版本与 Java 区间约束规则（Java 8 至 21）、离线玩家确定性 UUID 哈希算法、自动版本隔离 (PathIndie)、JVM 参数拼装。
-
-### 2. 辅助功能与全交互套件 (`TestAllAuxiliaryFeatures.exe`) —— 64 项测试
-* **认证系统**：离线角色名边界校验、微软正版 OAuth2 流参数、Xbox Live / XSTS 令牌交换协议、正版档案与皮肤披风模型提取、Authlib-Injector 外置登录规范。
-* **界面与路由**：5 大主导航栏路由映射、9 大二级功能子页面分发映射、自定义控件状态机行为。
-* **高级辅助工具**：Windows DPAPI 硬件级加密、内存深度整理回收、本地 Mod 启用/禁用 (`.jar.disabled`) 管理、皮肤多规格自适应、游戏崩溃日志智能诊断 (ModCrash) 与排查建议生成。
-
-### 运行自动化测试
-```powershell
-# 运行核心支柱功能测试套件
-& "Tests\TestLauncherAllFeatures.exe"
-
-# 运行辅助交互功能测试套件
-& "Tests\TestAllAuxiliaryFeatures.exe"
-```
-
----
 
 ## 📄 开源协议 (License)
 
