@@ -15,8 +15,6 @@ namespace PCLCS.Link
     /// </summary>
     public static class LinkSettings
     {
-        public static readonly int[] SearchTimeoutChoices = { 30, 60, 120 };
-
         private static string? _machineId;
         private static readonly ConcurrentDictionary<string, string> Storage = new(StringComparer.OrdinalIgnoreCase);
 
@@ -72,6 +70,8 @@ namespace PCLCS.Link
         public static string? LauncherAccountName { get; set; }
         public static string? LauncherAccountUuid { get; set; }
         public static bool LauncherAccountIsPremium { get; set; }
+        public static string? CurrentInstanceVersion { get; set; }
+        public static string? CurrentInstanceLoader { get; set; }
 
         public static string PlayerName
         {
@@ -133,18 +133,6 @@ namespace PCLCS.Link
             set => SetBool("link.hideaddress", value);
         }
 
-        public static bool AutoOpenLan
-        {
-            get => GetBool("link.autolan", false);
-            set => SetBool("link.autolan", value);
-        }
-
-        public static bool ShowSkins
-        {
-            get => GetBool("link.showskins", true);
-            set => SetBool("link.showskins", value);
-        }
-
         public static string ResetMachineId()
         {
             string newId = Guid.NewGuid().ToString("N");
@@ -164,16 +152,10 @@ namespace PCLCS.Link
             set => SetBool("link.readgameaccount", value);
         }
 
-        public static bool ShareMods
+        public static bool PremiumImmediateEvict
         {
-            get => GetBool("link.sharemods", false);
-            set => SetBool("link.sharemods", value);
-        }
-
-        public static bool ServeMods
-        {
-            get => GetBool("link.servemods", false);
-            set => SetBool("link.servemods", value);
+            get => GetBool("link.premiumimmediateevict", true);
+            set => SetBool("link.premiumimmediateevict", value);
         }
 
         public static string CustomPeers

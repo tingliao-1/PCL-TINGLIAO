@@ -519,7 +519,6 @@ Relogin:
         '结束
 SkipLogin:
         McLaunchLog($"微软登录结束，AccessToken 将在 {DateTimeOffset.FromUnixTimeSeconds(ExpiresAt).LocalDateTime} 过期")
-        Settings.Set("HintBuy", True) '关闭正版购买提示
     End Sub
     Private Sub McLoginServerStart(Data As LoaderTask(Of McLoginServer, McLoginResult))
         Dim Input As McLoginServer = Data.Input

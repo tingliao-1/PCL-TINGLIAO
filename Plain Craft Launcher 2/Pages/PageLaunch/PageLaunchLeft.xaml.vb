@@ -558,6 +558,47 @@ Finish:
         End If
         '实际的启动
         If BtnLaunch.Text = "启动游戏" Then
+            ' 联机房间版本门禁守卫
+            If PageLinkMain.LinkState = PageLinkMain.LinkStates.Finished AndAlso Not PageLinkMain.IsServerSide AndAlso PageLinkMain.Session?.HostGameVersion IsNot Nothing Then
+                Dim hostVer = PageLinkMain.Session.HostGameVersion
+                If hostVer.McVersion <> "Unknown" Then
+                    Dim currentVer = McInstanceSelected?.Version?.VanillaName
+                    Dim currentLoader = PageLinkMain.GetLoaderString(McInstanceSelected)
+                    Dim currentVerInfo = New PCLCS.Link.Minecraft.GameVersionInfo(currentVer, currentLoader)
+                    If Not hostVer.IsCompatibleWith(currentVerInfo) Then
+                        Dim matched = PageLinkMain.FindMatchingLocalInstance(hostVer)
+                        Dim msg As String
+                        If matched IsNot Nothing Then
+                            msg = $"你当前正在加入联机房间，但你选中的游戏版本与房主不一致：{vbCrLf}{vbCrLf}" &
+                                  $"• 房主版本：{hostVer.DisplayText}{vbCrLf}" &
+                                  $"• 当前选中：{currentVerInfo.DisplayText}【{McInstanceSelected?.Name}】{vbCrLf}{vbCrLf}" &
+                                  $"已在你的电脑中找到兼容版本【{matched.Name}】。{vbCrLf}" &
+                                  $"是否自动切换为此版本并启动？"
+                            Dim res = MyMsgBox(msg, "联机版本不匹配提示", "自动切换并启动", "取消启动", "仍要强制启动", IsWarn:=True)
+                            If res = 1 Then
+                                McInstanceSelected = matched
+                                Hint($"已自动切换至【{matched.Name}】！", HintType.Green)
+                            ElseIf res = 2 Then
+                                Return
+                            End If
+                        Else
+                            msg = $"你当前正在加入联机房间，但你选中的游戏版本与房主不一致：{vbCrLf}{vbCrLf}" &
+                                  $"• 房主版本：{hostVer.DisplayText}{vbCrLf}" &
+                                  $"• 当前选中：{currentVerInfo.DisplayText}【{McInstanceSelected?.Name}】{vbCrLf}{vbCrLf}" &
+                                  $"核心版本不同会导致无法进入房间或被服务端断开连接（Incompatible version）。{vbCrLf}" &
+                                  $"是否前往下载对应版本？"
+                            Dim res = MyMsgBox(msg, "联机版本不匹配警告", "前往下载", "取消启动", "仍要强制启动", IsWarn:=True)
+                            If res = 1 Then
+                                FrmMain.PageChange(FormMain.PageType.Download, FormMain.PageSubType.DownloadInstall)
+                                Return
+                            ElseIf res = 2 Then
+                                Return
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+
             McLaunchStart()
         ElseIf BtnLaunch.Text = "下载游戏" Then
             FrmMain.PageChange(FormMain.PageType.Download, FormMain.PageSubType.DownloadInstall)

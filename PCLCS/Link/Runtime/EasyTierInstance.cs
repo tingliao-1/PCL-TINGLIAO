@@ -91,7 +91,19 @@ namespace PCLCS.Link.Runtime
             process.Exited += (sender, e) => instance.OnExited();
 
             LinkLog.Info($"Starting network instance (rpc {rpcPort}, host name {config.Hostname}, hidden address {config.HideAddress}).");
-            process.Start();
+            try
+            {
+                process.Start();
+            }
+            catch (Exception ex)
+            {
+                if (SecurityInterceptionDetector.IsInterception(ex, EasyTierPackage.CorePath, out string advice))
+                {
+                    LinkLog.Error($"Security software intercepted core process launch: {advice}");
+                    throw new SecurityInterceptionException(EasyTierPackage.CorePath, advice, ex);
+                }
+                throw;
+            }
             ChildProcessJob.Assign(process);
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();

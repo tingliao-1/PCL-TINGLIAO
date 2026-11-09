@@ -39,10 +39,7 @@
                                          ToolTip="指定本机监听的游戏映射端口。若无特殊穿透需求，请保持 0 自动分配即可。" />
                     </Grid>
 
-                    <local:MyCheckBox Margin="0,14,0,0" local:SettingService.Key="LinkAutoOpenLan"
-                                      Text="自动开放局域网"
-                                      ToolTip="房主加载单人世界后，自动侦测并建立局域网世界，免去复杂的外部映射流程。" />
-                    <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkAutoCopyCode"
+                    <local:MyCheckBox Margin="0,14,0,0" local:SettingService.Key="LinkAutoCopyCode"
                                       Text="开启房间后自动复制邀请码"
                                       ToolTip="创建房间成功后，自动将房间专属邀请码复制到剪贴板，方便直接粘贴发给好友。" />
                     <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkDetectClipboard"
@@ -74,19 +71,7 @@
                 </StackPanel>
             </local:MyCard>
 
-            <!-- 3. 模组同步 -->
-            <local:MyCard Title="模组同步" Margin="0,0,0,15">
-                <StackPanel Margin="25,40,25,20">
-                    <local:MyCheckBox local:SettingService.Key="LinkShareMods" x:Name="CheckShareMods"
-                                      Text="允许访客同步我的模组"
-                                      ToolTip="作为房主时，允许连接的访客扫描并同步你当前的 Mods 模组清单，确保双方模组版本严格一致。" />
-                    <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkServeMods" x:Name="CheckServeMods"
-                                      Text="允许访客从我这里下载模组"
-                                      ToolTip="当访客缺失的模组无法在 Modrinth / CurseForge 下载时，允许其直接通过 P2P 隧道向你的电脑分块下载该模组的 jar 文件。" />
-                </StackPanel>
-            </local:MyCard>
-
-            <!-- 4. 隐私与安全 -->
+            <!-- 3. 隐私与安全 -->
             <local:MyCard Title="隐私与安全" Margin="0,0,0,15">
                 <StackPanel Margin="25,40,25,20">
                     <local:MyCheckBox local:SettingService.Key="LinkHideAddress" x:Name="CheckHideAddress"
@@ -95,9 +80,9 @@
                     <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkReadGameAccount"
                                       Text="读取当前正版角色身份"
                                       ToolTip="自动从游戏进程读取玩家的正版 UUID，以便在房间内展示正版认证标识。" />
-                    <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkShowSkins"
-                                      Text="显示正版玩家皮肤头像"
-                                      ToolTip="直接通过 Mojang 官方源获取正版玩家的高清头像并在房间玩家列表中呈现。" />
+                    <local:MyCheckBox Margin="0,10,0,0" local:SettingService.Key="LinkPremiumImmediateEvict"
+                                      Text="仅正版即时清退"
+                                      ToolTip="在联机中途开启【仅正版】验证时，立即将房间内现有的离线玩家安全移出（关闭后仅阻止新玩家加入，不对房内现有玩家产生影响）。" />
 
                     <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
                         <local:MyButton MinWidth="150" Padding="13,5" Text="重置本机设备特征码" x:Name="BtnResetMachineId" />
@@ -105,7 +90,7 @@
                 </StackPanel>
             </local:MyCard>
 
-            <!-- 5. 黑名单管理 -->
+            <!-- 4. 黑名单管理 -->
             <local:MyCard Title="黑名单管理" Margin="0,0,0,15">
                 <StackPanel Margin="25,40,25,20">
                     <TextBlock FontSize="12" Foreground="{StaticResource ColorBrushGray2}" TextWrapping="Wrap"
@@ -115,7 +100,7 @@
                 </StackPanel>
             </local:MyCard>
 
-            <!-- 6. 存储与维护 -->
+            <!-- 5. 存储与维护 -->
             <local:MyCard Title="存储与维护" Margin="0,0,0,15">
                 <StackPanel Margin="25,40,25,20">
                     <StackPanel Orientation="Horizontal">

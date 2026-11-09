@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using PCLCS.Link.Minecraft;
 
 namespace PCLCS.Link.Room
 {
@@ -20,6 +21,9 @@ namespace PCLCS.Link.Room
         private readonly TcpClient _client;
         private readonly NetworkStream _stream;
         private readonly SemaphoreSlim _lock = new(1, 1);
+
+        public bool IsAdmin { get; private set; }
+        public string? AdminToken { get; private set; }
 
         private RoomClient(TcpClient client)
         {
@@ -70,6 +74,15 @@ namespace PCLCS.Link.Room
             return (response.Body[0] << 8) | response.Body[1];
         }
 
+        public async Task<GameVersionInfo?> GetGameVersionAsync(CancellationToken cancellation)
+        {
+            var response = await SendAsync(RoomProtocol.GameVersion, null, RequestTimeout, cancellation).ConfigureAwait(false);
+            if (!response.IsOk || response.Body == null || response.Body.Length == 0)
+                return null;
+            string text = Encoding.UTF8.GetString(response.Body);
+            return GameVersionInfo.Parse(text);
+        }
+
         public async Task SendHeartbeatAsync(PlayerProfile self, CancellationToken cancellation)
         {
             string json = Json.Serialize(self.ToJson(includeKind: false));
@@ -82,9 +95,48 @@ namespace PCLCS.Link.Room
                     throw new RoomRejectedException(reply == RoomServer.BlockedReply);
                 if (reply == RoomServer.LockedReply)
                     throw new LinkException("Link.Error.RoomLocked");
+                if (reply == RoomServer.WhitelistRequiredReply)
+                    throw new LinkException("Link.Error.WhitelistRequired");
+                if (reply == RoomServer.WhitelistDeviceMismatchReply)
+                    throw new LinkException("Link.Error.WhitelistDeviceMismatch");
                 if (reply == RoomServer.PremiumRequiredReply)
                     throw new LinkException("Link.Error.PremiumRequired");
                 throw new InvalidDataException("Heartbeat rejected: " + reply);
+            }
+
+            if (response.Body != null && response.Body.Length > 0)
+            {
+                try
+                {
+                    if (Json.Parse(Encoding.UTF8.GetString(response.Body)) is IDictionary<string, object> replyObj)
+                    {
+                        string role = replyObj.TryGetValue("role", out var r) ? r?.ToString() ?? "" : "";
+                        IsAdmin = string.Equals(role, "ADMIN", StringComparison.OrdinalIgnoreCase);
+                        AdminToken = replyObj.TryGetValue("admin_token", out var t) ? t?.ToString() : null;
+                    }
+                }
+                catch
+                {
+                    // Ignore body parse errors for backwards compatibility
+                }
+            }
+        }
+
+        public async Task SendAdminKickAsync(string token, string targetMachineId, CancellationToken cancellation)
+        {
+            var payload = new Dictionary<string, object>
+            {
+                ["token"] = token,
+                ["action"] = "kick",
+                ["target"] = targetMachineId
+            };
+            string json = Json.Serialize(payload);
+            var response = await SendAsync(RoomProtocol.AdminAction, Encoding.UTF8.GetBytes(json), RequestTimeout, cancellation)
+                .ConfigureAwait(false);
+            if (!response.IsOk)
+            {
+                string err = response.Body != null && response.Body.Length > 0 ? Encoding.UTF8.GetString(response.Body) : "Unknown error";
+                throw new InvalidOperationException(err);
             }
         }
 

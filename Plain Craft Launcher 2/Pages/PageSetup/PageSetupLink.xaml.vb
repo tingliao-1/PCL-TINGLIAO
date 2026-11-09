@@ -47,7 +47,7 @@ Public Class PageSetupLink
         Reload()
     End Sub
 
-    ' 控件依赖联动（开启隐藏IP时中继必选；关闭Mod同步时Mod下载置灰）
+    ' 控件依赖联动（开启隐藏IP时中继必选）
     Private Sub UpdateControlInteractions()
         Dim isHideAddress As Boolean = Settings.Get(Of Boolean)("LinkHideAddress")
         If isHideAddress Then
@@ -56,19 +56,9 @@ Public Class PageSetupLink
         Else
             CheckAllowRelay.IsEnabled = True
         End If
-
-        Dim isShareMods As Boolean = Settings.Get(Of Boolean)("LinkShareMods")
-        CheckServeMods.IsEnabled = isShareMods
-        If Not isShareMods Then
-            CheckServeMods.Checked = False
-        End If
     End Sub
 
     Private Sub CheckHideAddress_Change(sender As Object, user As Boolean) Handles CheckHideAddress.Change
-        If user Then UpdateControlInteractions()
-    End Sub
-
-    Private Sub CheckShareMods_Change(sender As Object, user As Boolean) Handles CheckShareMods.Change
         If user Then UpdateControlInteractions()
     End Sub
 

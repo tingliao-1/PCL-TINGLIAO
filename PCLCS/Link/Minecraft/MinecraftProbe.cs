@@ -12,16 +12,18 @@ namespace PCLCS.Link.Minecraft
 {
     public sealed class ServerStatus
     {
-        public ServerStatus(string version, string motd, int maxPlayers)
+        public ServerStatus(string version, string motd, int maxPlayers, string? protocol = null)
         {
             Version = version;
             Motd = motd;
             MaxPlayers = maxPlayers;
+            Protocol = protocol;
         }
 
         public string Version { get; }
         public string Motd { get; }
         public int MaxPlayers { get; }
+        public string? Protocol { get; }
     }
 
     public static class MinecraftProbe
@@ -85,7 +87,7 @@ namespace PCLCS.Link.Minecraft
             if (parts.Length < 6 || parts[0] != "§1")
                 return null;
             int.TryParse(parts[5], out int max);
-            return new ServerStatus(parts[2], parts[3], max);
+            return new ServerStatus(parts[2], parts[3], max, parts[1]);
         }
 
         private static async Task<byte[]?> ReadExactlyAsync(Stream stream, int count)

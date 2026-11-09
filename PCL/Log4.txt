@@ -1,0 +1,144 @@
+20:53:03.254 I <4 · Logger> [Logger] 开始轮转日志文件
+20:53:03.266 I <4 · Logger> [Logger] PclLogger 日志初始化结束
+20:53:03.279 I [Application] 程序版本：正式版 1.0.0.0 (1)
+20:53:03.279 I [Application] 识别码：0000-0000-0000-0000
+20:53:03.279 I [Application] 程序路径：C:\Users\******\Downloads\PCL-main\Plain Craft Launcher 2.exe
+20:53:03.279 I [Application] 系统编码：gb2312 (936, GBK=True)
+20:53:03.279 I [Application] 管理员权限：False
+20:53:03.279 I [Application] 第一阶段加载用时：40 ms
+20:53:03.391 I [FormMain] 全新的 PCL，使用新的版本隔离默认值
+20:53:03.423 I [ModLoader] 加载器 LoaderTask`2 Minecraft Folder List 状态改变：Loading
+20:53:03.423 I [FormMain] 第二阶段加载用时：142 ms
+20:53:03.434 I <5 · L/Minecraft Folder List> [ModLoader] 加载器 LoaderTask`2 Minecraft Folder List 状态改变：Finished
+20:53:03.554 I [FormMain] 从设置更新背景图片与标题栏样式
+20:53:03.584 I [FormMain] 窗口已置顶，位置：(403.333333333333, 234.666666666667), 900 x 550
+20:53:03.589 I [FormMain] 第三阶段加载用时：33 ms
+20:53:03.589 I <8 · Animation> [ModAnimation] 动画线程开始
+20:53:03.597 I <13 · Version Check> [ModMinecraft] 当前选择的 Minecraft 文件夹：C:\Users\******\Downloads\PCL-main\.minecraft\
+20:53:03.597 I <13 · Version Check> [PageLaunchLeft] 当前选择的 Minecraft 版本无效：null
+20:53:03.603 I <13 · Version Check> [ModLoader] 加载器 LoaderTask`2 Minecraft Instance List 状态改变：Loading
+20:53:03.613 I <14 · L/Minecraft Instance List> [ModMinecraft] 当前选择的 Minecraft 版本：无
+20:53:03.613 I <14 · L/Minecraft Instance List> [ModMinecraft] 未找到可用 Minecraft 版本
+20:53:03.613 I <14 · L/Minecraft Instance List> [ModLoader] 加载器 LoaderTask`2 Minecraft Instance List 状态改变：Finished
+20:53:03.622 I [ModLoader] 加载器 LoaderTask`2 Loader Skin Ms 状态改变：Loading
+20:53:03.626 I <15 · L/Loader Skin Ms> [ModLoader] 加载器 LoaderTask`2 Loader Skin Ms 状态改变：Finished
+20:53:03.628 I <13 · Version Check> [PageLaunchLeft] 无可用 Minecraft 版本
+20:53:03.640 I [PageLaunchRight] 实例化：清空主页 UI，来源为空
+20:53:03.658 I [MySkin] 载入头像成功：Loader Skin Ms
+20:53:03.658 I [PageLaunchLeft] 启动按钮：无 Minecraft 版本，要求下载
+20:53:03.659 I [ModLoader] 加载器 LoaderTask`2 登录 状态改变：Loading
+20:53:03.659 I <16 · L/登录> [ModLaunch] 登录加载已开始
+20:53:03.659 I <16 · L/登录> [ModLoader] 加载器 LoaderTask`2 Loader Login Ms 状态改变：Loading
+20:53:03.663 I <17 · L/Loader Login Ms> [ModLaunch] 登录方式：正版（Ting_Liao）
+20:53:03.663 I <17 · L/Loader Login Ms> [ModLaunch] 无需登录，AccessToken 尚未过期
+20:53:03.663 I <17 · L/Loader Login Ms> [ModLaunch] 微软登录结束，AccessToken 将在 2026/11/8 15:34:31 过期
+20:53:03.663 I <17 · L/Loader Login Ms> [ModLoader] 加载器 LoaderTask`2 Loader Login Ms 状态改变：Finished
+20:53:03.677 I <16 · L/登录> [ModLaunch] 登录加载已结束
+20:53:03.677 I <16 · L/登录> [ModLoader] 加载器 LoaderTask`2 登录 状态改变：Finished
+20:53:03.722 I <10 · 初始化> [ModJava] 共有 2 个可用的 Java：
+20:53:03.722 I <10 · 初始化> [ModJava] - Java 17 (17.0.15.0)：C:\Users\******\AppData\Roaming\.minecraft\runtime\java-runtime-beta\bin\
+20:53:03.722 I <10 · 初始化> [ModJava] - Java 25 (25.0.1.0)：C:\Users\******\AppData\Roaming\.minecraft\runtime\java-runtime-epsilon\bin\
+20:53:03.834 I <10 · 初始化> [ModLoader] 加载器 LoaderTask`2 DlClientList Mojang 状态改变：Loading
+20:53:03.837 I <10 · 初始化> [ModLoader] 加载器 LoaderTask`2 PCL 配置更新 状态改变：Loading
+20:53:03.837 I <19 · L/PCL 配置更新> [ModSecret] 该版本中不包含更新通知功能……
+20:53:03.837 I <19 · L/PCL 配置更新> [ModLoader] 加载器 LoaderTask`2 PCL 配置更新 状态改变：Finished
+20:53:03.837 I <20 · TryClearTaskTemp> [ModMain] 开始清理任务缓存文件夹
+20:53:03.838 I <18 · L/DlClientList Mojang> [ModNet] 发起网络请求（GET，https://launchermeta.mojang.com/mc/game/version_manifest.json），最大超时 10000
+20:53:03.838 I <20 · TryClearTaskTemp> [ModMain] 已清理任务缓存文件夹
+20:53:04.303 I [FormMain] DPI：144，系统版本：Microsoft Windows NT 10.0.26300.0，PCL 位置：C:\Users\******\Downloads\PCL-main\Plain Craft Launcher 2.exe
+20:53:04.714 I [MyRadioButton] 按下单选按钮：下载
+20:53:04.782 I <13 · ForgeRecommendedRefresh> [ModDownloadLib] 刷新 Forge 推荐版本缓存开始
+20:53:04.782 I <13 · ForgeRecommendedRefresh> [ModNet] 发起网络请求（GET，https://bmclapi2.bangbang93.com/forge/promos），最大超时 10000
+20:53:04.782 I [ModLoader] 加载器 LoaderTask`2 DlClientList Main 状态改变：Loading
+20:53:04.789 I [FormMain] 切换主要页面：Download, -1
+20:53:04.789 I <26 · L/DlClientList Mojang> [ModNet] 发起网络请求（GET，https://launchermeta.mojang.com/mc/game/version_manifest.json），最大超时 10000
+20:53:04.790 I <18 · L/DlClientList Mojang> [ModNet] 操作已取消（网络请求失败（GET，https://launchermeta.mojang.com/mc/game/version_manifest.json））
+20:53:04.790 I <18 · L/DlClientList Mojang> [ModLoader] 操作已取消（加载线程 DlClientList Mojang 已取消，当前已完成 0%）
+20:53:04.812 I <13 · ForgeRecommendedRefresh> [ModDownloadLib] 刷新 Forge 推荐版本缓存成功
+20:53:04.852 I [ModLoader] 加载器 LoaderTask`2 DlOptiFineList Main 状态改变：Loading
+20:53:04.853 I [ModLoader] 加载器 LoaderTask`2 DlLiteLoaderList Main 状态改变：Loading
+20:53:04.854 I [ModLoader] 加载器 LoaderTask`2 DlFabricList Main 状态改变：Loading
+20:53:04.855 I <38 · L/DlOptiFineList Main> [ModLoader] 加载器 LoaderTask`2 DlOptiFineList Official 状态改变：Loading
+20:53:04.856 I [ModLoader] 加载器 LoaderTask`2 DlNeoForgeList Main 状态改变：Loading
+20:53:04.856 I <39 · L/DlLiteLoaderList Main> [ModLoader] 加载器 LoaderTask`2 DlLiteLoaderList Official 状态改变：Loading
+20:53:04.857 I <41 · L/DlOptiFineList Official> [ModNet] 发起网络请求（GET，https://optifine.net/downloads），最大超时 10000
+20:53:04.858 I <40 · L/DlFabricList Main> [ModLoader] 加载器 LoaderTask`2 DlFabricList Official 状态改变：Loading
+20:53:04.858 I <43 · L/DlLiteLoaderList Official> [ModNet] 发起网络请求（GET，https://dl.liteloader.com/versions/versions.json），最大超时 10000
+20:53:04.858 I <44 · L/DlFabricList Official> [ModNet] 发起网络请求（GET，https://meta.fabricmc.net/v2/versions），最大超时 10000
+20:53:04.859 I <42 · L/DlNeoForgeList Main> [ModLoader] 加载器 LoaderTask`2 DlNeoForgeList Official 状态改变：Loading
+20:53:04.859 I <48 · L/DlNeoForgeList Official> [ModNet] 发起网络请求（GET，https://maven.neoforged.net/api/maven/versions/releases/net/neoforged/neoforge），最大超时 10000
+20:53:05.560 W [Application] 未观察到的异步 Task 异常已拦截：未通过等待任务或访问任务的 Exception 属性观察到任务的异常。因此，终结器线程重新引发了未观察到的异常。
+20:53:05.560 W [Application]    错误类型：System.AggregateException
+20:53:05.560 W [Application] → 无法访问已释放的对象。
+20:53:05.560 W [Application] 对象名:“System.Net.Http.HttpRequestMessage”。
+20:53:05.560 W [Application]    在 System.Net.Http.HttpRequestMessage.CheckDisposed
+20:53:05.560 W [Application]    在 System.Net.Http.HttpRequestMessage.set_RequestUri
+20:53:05.560 W [Application]    在 System.Net.Http.HttpClientHandler.CreateResponseMessage
+20:53:05.560 W [Application]    在 System.Net.Http.HttpClientHandler.GetResponseCallback
+20:53:05.560 W [Application] --- 引发异常的上一位置中堆栈跟踪的末尾 ------ 引发异常的上一位置中堆栈跟踪的末尾 ---
+20:53:05.560 W [Application]    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw
+20:53:05.560 W [Application]    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification
+20:53:05.560 W [Application]    在 CacheCow.Client.CachingHandler.<SendAsync>d__46.MoveNext
+20:53:05.560 W [Application]    错误类型：System.ObjectDisposedException：未通过等待任务或访问任务的 Exception 属性观察到任务的异常。因此，终结器线程重新引发了未观察到的异常。
+20:53:05.560 W [Application]    错误类型：System.AggregateException
+20:53:05.560 W [Application] → 无法访问已释放的对象。
+20:53:05.560 W [Application] 对象名:“System.Net.Http.HttpRequestMessage”。
+20:53:05.560 W [Application]    在 System.Net.Http.HttpRequestMessage.CheckDisposed
+20:53:05.560 W [Application]    在 System.Net.Http.HttpRequestMessage.set_RequestUri
+20:53:05.560 W [Application]    在 System.Net.Http.HttpClientHandler.CreateResponseMessage
+20:53:05.560 W [Application]    在 System.Net.Http.HttpClientHandler.GetResponseCallback
+20:53:05.560 W [Application] --- 引发异常的上一位置中堆栈跟踪的末尾 ------ 引发异常的上一位置中堆栈跟踪的末尾 ---
+20:53:05.560 W [Application]    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw
+20:53:05.560 W [Application]    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification
+20:53:05.560 W [Application]    在 CacheCow.Client.CachingHandler.<SendAsync>d__46.MoveNext
+20:53:05.560 W [Application]    错误类型：System.ObjectDisposedException
+20:53:05.568 I <44 · L/DlFabricList Official> [ModLoader] 加载器 LoaderTask`2 DlFabricList Official 状态改变：Finished
+20:53:05.585 I <40 · L/DlFabricList Main> [ModLoader] 加载器 LoaderTask`2 DlFabricList Main 状态改变：Finished
+20:53:05.744 I <48 · L/DlNeoForgeList Official> [ModNet] 发起网络请求（GET，https://maven.neoforged.net/api/maven/versions/releases/net/neoforged/forge），最大超时 10000
+20:53:06.155 I <26 · L/DlClientList Mojang> [ModDownload] Mojang 官方源加载耗时：1368ms，可优先使用官方源
+20:53:06.155 I <26 · L/DlClientList Mojang> [ModLoader] 加载器 LoaderTask`2 DlClientList Mojang 状态改变：Finished
+20:53:06.212 I <12 · L/DlClientList Main> [ModLoader] 加载器 LoaderTask`2 DlClientList Main 状态改变：Finished
+20:53:06.256 I <43 · L/DlLiteLoaderList Official> [ModLoader] 加载器 LoaderTask`2 DlLiteLoaderList Official 状态改变：Finished
+20:53:06.259 I <39 · L/DlLiteLoaderList Main> [ModLoader] 加载器 LoaderTask`2 DlLiteLoaderList Main 状态改变：Finished
+20:53:06.268 I <48 · L/DlNeoForgeList Official> [ModLoader] 加载器 LoaderTask`2 DlNeoForgeList Official 状态改变：Finished
+20:53:06.275 I <42 · L/DlNeoForgeList Main> [ModLoader] 加载器 LoaderTask`2 DlNeoForgeList Main 状态改变：Finished
+20:53:06.643 I [ModAnimation] FPS 0, 动画 36, 下载中 0（0 B/s）
+20:53:06.925 I [MyRadioButton] 按下单选按钮：联机
+20:53:06.943 I [FormMain] 切换主要页面：Link, -1
+20:53:07.854 I [MyRadioButton] 按下单选按钮：下载
+20:53:07.854 I [FormMain] 切换主要页面：Download, -1
+20:53:08.398 I [MyRadioButton] 按下单选按钮：联机
+20:53:08.404 I [FormMain] 切换主要页面：Link, -1
+20:53:08.883 I [ModAnimation] 两个动画帧间隔 101 ms
+20:53:09.169 I [MyRadioButton] 按下单选按钮：设置
+20:53:09.209 I [FormMain] 切换主要页面：Setup, -1
+20:53:09.324 I [ModLoader] 加载器 LoaderTask`2 Loader Skin Legacy 状态改变：Loading
+20:53:09.326 I <18 · L/Loader Skin Legacy> [ModLoader] 加载器 LoaderTask`2 Loader Skin Legacy 状态改变：Finished
+20:53:10.024 I [MyListItem] 按下单选列表项：联机
+20:53:12.854 I <38 · L/DlOptiFineList Main> [ModLoader] 加载器 LoaderTask`2 DlOptiFineList Bmclapi 状态改变：Loading
+20:53:12.854 I <52 · L/DlOptiFineList Bmclapi> [ModNet] 发起网络请求（GET，https://bmclapi2.bangbang93.com/optifine/versionList），最大超时 10000
+20:53:14.876 W <41 · L/DlOptiFineList Official> [ModNet] 网络请求失败（GET，https://optifine.net/downloads）：你的网络环境不佳，请稍后再试，或使用 VPN 改善网络环境。
+20:53:14.876 W <41 · L/DlOptiFineList Official> [ModNet] ——————— 详细错误信息 ———————
+20:53:14.876 W <41 · L/DlOptiFineList Official> [ModNet] 连接服务器超时，请稍后再试，或使用 VPN 改善网络环境（GET, https://optifine.net/downloads） (Status=Timeout)
+20:53:14.876 W <41 · L/DlOptiFineList Official> [ModNet]    在 PCL.ModNet.SendRequest
+20:53:14.876 W <41 · L/DlOptiFineList Official> [ModNet]    在 PCL.ModNet.NetRequestByClient
+20:53:14.876 W <41 · L/DlOptiFineList Official> [ModNet]    错误类型：System.Net.WebException
+20:53:14.981 I <52 · L/DlOptiFineList Bmclapi> [ModLoader] 加载器 LoaderTask`2 DlOptiFineList Bmclapi 状态改变：Finished
+20:53:14.981 I <38 · L/DlOptiFineList Main> [ModLoader] 加载器 LoaderTask`2 DlOptiFineList Official 状态改变：Canceled
+20:53:14.986 I <38 · L/DlOptiFineList Main> [ModLoader] 加载器 LoaderTask`2 DlOptiFineList Main 状态改变：Finished
+20:53:14.986 I <41 · L/DlOptiFineList Official> [ModLoader] 操作已取消（加载线程 DlOptiFineList Official 已取消，当前已完成 100%）
+20:53:20.924 I [MyRadioButton] 按下单选按钮：更多
+20:53:20.944 I [ModLoader] 加载器 LoaderTask`2 Help Page 状态改变：Loading
+20:53:20.944 I [FormMain] 切换主要页面：Other, -1
+20:53:20.948 I <68 · L/Help Page> [ModMain] 已扫描 PCL 文件夹下的帮助文件，目前总计 0 条
+20:53:20.950 I <68 · L/Help Page> [ModMain] 已扫描缓存文件夹下的帮助文件，目前总计 39 条
+20:53:21.000 I <68 · L/Help Page> [ModLoader] 加载器 LoaderTask`2 Help Page 状态改变：Finished
+20:53:21.596 I [MyRadioButton] 按下单选按钮：设置
+20:53:21.596 I [FormMain] 切换主要页面：Setup, -1
+20:53:22.129 I [MyRadioButton] 按下单选按钮：更多
+20:53:22.129 I [FormMain] 切换主要页面：Other, -1
+20:53:23.707 I [MyRadioButton] 按下单选按钮：设置
+20:53:23.714 I [FormMain] 切换主要页面：Setup, -1
+20:53:37.066 I [MyIconButton] 按下图标按钮：BtnTitleClose
+20:53:37.066 I [FormMain] 收到关闭指令
+20:53:37.304 I [FormMain] 程序已退出，返回值：Success

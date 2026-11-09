@@ -279,8 +279,20 @@ namespace PCLCS.Link.Runtime
                 TryDelete(temp);
                 throw new InvalidDataException(file + " failed verification.");
             }
-            TryDelete(target);
-            File.Move(temp, target);
+            try
+            {
+                TryDelete(target);
+                File.Move(temp, target);
+            }
+            catch (Exception ex)
+            {
+                if (SecurityInterceptionDetector.IsInterception(ex, target, out string advice))
+                {
+                    TryDelete(temp);
+                    throw new SecurityInterceptionException(target, advice, ex);
+                }
+                throw;
+            }
         }
 
         private static bool IsFileValid(string file)

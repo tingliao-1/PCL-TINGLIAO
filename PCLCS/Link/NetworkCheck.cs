@@ -18,13 +18,36 @@ namespace PCLCS.Link
 
         public static IReadOnlyList<IPAddress> GetIPv4Addresses()
         {
-            var addresses = GetUnicastAddresses().Where(a => a.AddressFamily == AddressFamily.InterNetwork).ToList();
-            if (!addresses.Contains(IPAddress.Loopback))
-                addresses.Add(IPAddress.Loopback);
-            return addresses;
+            var list = GetUnicastAddressesWithMeta()
+                .Where(t => t.Address.AddressFamily == AddressFamily.InterNetwork)
+                .OrderByDescending(t => t.IsPhysical)
+                .Select(t => t.Address)
+                .Distinct()
+                .ToList();
+
+            if (!list.Contains(IPAddress.Loopback))
+                list.Add(IPAddress.Loopback);
+            return list;
         }
 
-        private static IEnumerable<IPAddress> GetUnicastAddresses()
+        private static bool IsVirtualOrFilteredInterface(NetworkInterface network)
+        {
+            if (network.NetworkInterfaceType == NetworkInterfaceType.Loopback ||
+                network.NetworkInterfaceType == NetworkInterfaceType.Tunnel)
+                return true;
+
+            string name = (network.Name + " " + network.Description).ToLowerInvariant();
+            return name.Contains("vmware") ||
+                   name.Contains("virtualbox") ||
+                   name.Contains("vethernet") ||
+                   name.Contains("wsl") ||
+                   name.Contains("tailscale") ||
+                   name.Contains("zerotier") ||
+                   name.Contains("hyper-v") ||
+                   name.Contains("tap-windows");
+        }
+
+        private static IEnumerable<(IPAddress Address, bool IsPhysical)> GetUnicastAddressesWithMeta()
         {
             NetworkInterface[] interfaces;
             try
@@ -41,6 +64,10 @@ namespace PCLCS.Link
                 if (network.OperationalStatus != OperationalStatus.Up)
                     continue;
 
+                bool isPhysical = !IsVirtualOrFilteredInterface(network) &&
+                                  (network.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
+                                   network.NetworkInterfaceType == NetworkInterfaceType.Wireless80211);
+
                 UnicastIPAddressInformationCollection unicast;
                 try
                 {
@@ -52,8 +79,13 @@ namespace PCLCS.Link
                 }
 
                 foreach (var info in unicast)
-                    yield return info.Address;
+                    yield return (info.Address, isPhysical);
             }
+        }
+
+        private static IEnumerable<IPAddress> GetUnicastAddresses()
+        {
+            return GetUnicastAddressesWithMeta().Select(t => t.Address);
         }
 
         private static bool IsGlobalIPv6(IPAddress address)

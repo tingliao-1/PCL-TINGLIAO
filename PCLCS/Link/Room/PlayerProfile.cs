@@ -12,6 +12,7 @@ namespace PCLCS.Link.Room
     public enum PlayerKind
     {
         Host,
+        Admin,
         Guest,
         Local,
     }
@@ -19,7 +20,7 @@ namespace PCLCS.Link.Room
     public sealed class PlayerProfile
     {
         public PlayerProfile(string name, string machineId, PlayerKind kind, string? uuid = null, string? gameName = null,
-            double? latencyMs = null)
+            double? latencyMs = null, bool isLocal = false)
         {
             GameName = string.IsNullOrEmpty(gameName) ? null : gameName;
             Name = name ?? "";
@@ -30,11 +31,13 @@ namespace PCLCS.Link.Room
                         && latencyMs.Value >= 0 && latencyMs.Value <= 60000
                 ? latencyMs
                 : null;
+            IsLocal = isLocal || kind == PlayerKind.Local;
         }
 
         public string Name { get; }
         public string MachineId { get; }
         public PlayerKind Kind { get; }
+        public bool IsLocal { get; }
         public string? Uuid { get; }
         public string? GameName { get; }
         public double? LatencyMs { get; }
@@ -64,17 +67,22 @@ namespace PCLCS.Link.Room
                 gameName = account?.Name ?? LinkSettings.LauncherAccountName;
             }
 
-            return new PlayerProfile(LinkSettings.EffectivePlayerName, LinkSettings.MachineId, kind, uuid, gameName);
+            return new PlayerProfile(LinkSettings.EffectivePlayerName, LinkSettings.MachineId, kind, uuid, gameName, isLocal: true);
         }
 
         public PlayerProfile WithKind(PlayerKind kind)
         {
-            return new PlayerProfile(Name, MachineId, kind, Uuid, GameName, LatencyMs);
+            return new PlayerProfile(Name, MachineId, kind, Uuid, GameName, LatencyMs, IsLocal);
         }
 
         public PlayerProfile WithLatency(double? latencyMs)
         {
-            return new PlayerProfile(Name, MachineId, Kind, Uuid, GameName, latencyMs);
+            return new PlayerProfile(Name, MachineId, Kind, Uuid, GameName, latencyMs, IsLocal);
+        }
+
+        public PlayerProfile WithLocal(bool isLocal)
+        {
+            return new PlayerProfile(Name, MachineId, Kind, Uuid, GameName, LatencyMs, isLocal);
         }
 
         public Dictionary<string, object> ToJson(bool includeKind)
@@ -85,7 +93,14 @@ namespace PCLCS.Link.Room
                 ["machine_id"] = MachineId,
             };
             if (includeKind)
-                json["kind"] = Kind == PlayerKind.Host ? "HOST" : "GUEST";
+            {
+                json["kind"] = Kind switch
+                {
+                    PlayerKind.Host => "HOST",
+                    PlayerKind.Admin => "ADMIN",
+                    _ => "GUEST"
+                };
+            }
             if (!string.IsNullOrWhiteSpace(Uuid))
                 json["uuid"] = Uuid!;
             if (GameName != null)
@@ -108,7 +123,15 @@ namespace PCLCS.Link.Room
 
             PlayerKind kind = defaultKind;
             if (json.TryGetValue("kind", out var k))
-                kind = string.Equals(k?.ToString(), "HOST", StringComparison.OrdinalIgnoreCase) ? PlayerKind.Host : PlayerKind.Guest;
+            {
+                string? kStr = k?.ToString();
+                if (string.Equals(kStr, "HOST", StringComparison.OrdinalIgnoreCase))
+                    kind = PlayerKind.Host;
+                else if (string.Equals(kStr, "ADMIN", StringComparison.OrdinalIgnoreCase))
+                    kind = PlayerKind.Admin;
+                else
+                    kind = PlayerKind.Guest;
+            }
 
             return new PlayerProfile(name, machineId, kind, uuid, gameName, latency);
         }

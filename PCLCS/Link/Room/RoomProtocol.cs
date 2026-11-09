@@ -10,6 +10,8 @@ namespace PCLCS.Link.Room
         public const string ServerPort = "c:server_port";
         public const string PlayerPing = "c:player_ping";
         public const string PlayerList = "c:player_profiles_list";
+        public const string AdminAction = "c:admin_action";
+        public const string GameVersion = "c:game_version";
 
         public const string HostNamePrefix = "scaffolding-mc-server-";
         public const string HostAddress = "10.144.144.1";

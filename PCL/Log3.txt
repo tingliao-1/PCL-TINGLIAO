@@ -1,0 +1,56 @@
+20:57:16.549 I <4 · Logger> [Logger] PclLogger 日志初始化结束
+20:57:16.566 I [Application] 程序版本：正式版 1.0.0.0 (1)
+20:57:16.566 I [Application] 识别码：0000-0000-0000-0000
+20:57:16.566 I [Application] 程序路径：C:\Users\******\Downloads\PCL-main\Plain Craft Launcher 2.exe
+20:57:16.566 I [Application] 系统编码：gb2312 (936, GBK=True)
+20:57:16.566 I [Application] 管理员权限：False
+20:57:16.566 I [Application] 第一阶段加载用时：38 ms
+20:57:16.673 I [FormMain] 全新的 PCL，使用新的版本隔离默认值
+20:57:16.710 I [ModLoader] 加载器 LoaderTask`2 Minecraft Folder List 状态改变：Loading
+20:57:16.710 I [FormMain] 第二阶段加载用时：140 ms
+20:57:16.714 I <5 · L/Minecraft Folder List> [ModLoader] 加载器 LoaderTask`2 Minecraft Folder List 状态改变：Finished
+20:57:16.834 I [FormMain] 从设置更新背景图片与标题栏样式
+20:57:16.854 I [FormMain] 窗口已置顶，位置：(403.333333333333, 234.666666666667), 900 x 550
+20:57:16.864 I [FormMain] 第三阶段加载用时：32 ms
+20:57:16.864 I <8 · Animation> [ModAnimation] 动画线程开始
+20:57:16.873 I <13 · Version Check> [ModMinecraft] 当前选择的 Minecraft 文件夹：C:\Users\******\Downloads\PCL-main\.minecraft\
+20:57:16.873 I <13 · Version Check> [PageLaunchLeft] 当前选择的 Minecraft 版本无效：null
+20:57:16.879 I <13 · Version Check> [ModLoader] 加载器 LoaderTask`2 Minecraft Instance List 状态改变：Loading
+20:57:16.886 I <14 · L/Minecraft Instance List> [ModMinecraft] 当前选择的 Minecraft 版本：无
+20:57:16.886 I <14 · L/Minecraft Instance List> [ModMinecraft] 未找到可用 Minecraft 版本
+20:57:16.886 I <14 · L/Minecraft Instance List> [ModLoader] 加载器 LoaderTask`2 Minecraft Instance List 状态改变：Finished
+20:57:16.895 I <13 · Version Check> [PageLaunchLeft] 无可用 Minecraft 版本
+20:57:16.896 I [ModLoader] 加载器 LoaderTask`2 Loader Skin Ms 状态改变：Loading
+20:57:16.899 I <15 · L/Loader Skin Ms> [ModLoader] 加载器 LoaderTask`2 Loader Skin Ms 状态改变：Finished
+20:57:16.913 I [PageLaunchRight] 实例化：清空主页 UI，来源为空
+20:57:16.919 I [PageLaunchLeft] 启动按钮：无 Minecraft 版本，要求下载
+20:57:16.923 I [ModLoader] 加载器 LoaderTask`2 登录 状态改变：Loading
+20:57:16.923 I <16 · L/登录> [ModLaunch] 登录加载已开始
+20:57:16.925 I <16 · L/登录> [ModLoader] 加载器 LoaderTask`2 Loader Login Ms 状态改变：Loading
+20:57:16.927 I <17 · L/Loader Login Ms> [ModLaunch] 登录方式：正版（Ting_Liao）
+20:57:16.929 I <17 · L/Loader Login Ms> [ModLaunch] 无需登录，AccessToken 尚未过期
+20:57:16.930 I <17 · L/Loader Login Ms> [ModLaunch] 微软登录结束，AccessToken 将在 2026/11/8 15:34:31 过期
+20:57:16.930 I <17 · L/Loader Login Ms> [ModLoader] 加载器 LoaderTask`2 Loader Login Ms 状态改变：Finished
+20:57:16.934 I [MySkin] 载入头像成功：Loader Skin Ms
+20:57:16.943 I <16 · L/登录> [ModLaunch] 登录加载已结束
+20:57:16.943 I <16 · L/登录> [ModLoader] 加载器 LoaderTask`2 登录 状态改变：Finished
+20:57:16.993 I <10 · 初始化> [ModJava] 共有 2 个可用的 Java：
+20:57:16.993 I <10 · 初始化> [ModJava] - Java 17 (17.0.15.0)：C:\Users\******\AppData\Roaming\.minecraft\runtime\java-runtime-beta\bin\
+20:57:16.993 I <10 · 初始化> [ModJava] - Java 25 (25.0.1.0)：C:\Users\******\AppData\Roaming\.minecraft\runtime\java-runtime-epsilon\bin\
+20:57:17.100 I <10 · 初始化> [ModLoader] 加载器 LoaderTask`2 DlClientList Mojang 状态改变：Loading
+20:57:17.102 I <10 · 初始化> [ModLoader] 加载器 LoaderTask`2 PCL 配置更新 状态改变：Loading
+20:57:17.102 I <19 · L/PCL 配置更新> [ModSecret] 该版本中不包含更新通知功能……
+20:57:17.102 I <19 · L/PCL 配置更新> [ModLoader] 加载器 LoaderTask`2 PCL 配置更新 状态改变：Finished
+20:57:17.102 I <20 · TryClearTaskTemp> [ModMain] 开始清理任务缓存文件夹
+20:57:17.104 I <20 · TryClearTaskTemp> [ModMain] 已清理任务缓存文件夹
+20:57:17.104 I <18 · L/DlClientList Mojang> [ModNet] 发起网络请求（GET，https://launchermeta.mojang.com/mc/game/version_manifest.json），最大超时 10000
+20:57:17.589 I [FormMain] DPI：144，系统版本：Microsoft Windows NT 10.0.26300.0，PCL 位置：C:\Users\******\Downloads\PCL-main\Plain Craft Launcher 2.exe
+20:57:17.784 I <18 · L/DlClientList Mojang> [ModDownload] Mojang 官方源加载耗时：684ms，可优先使用官方源
+20:57:17.784 I <18 · L/DlClientList Mojang> [ModLoader] 加载器 LoaderTask`2 DlClientList Mojang 状态改变：Finished
+20:57:18.384 I [MyRadioButton] 按下单选按钮：联机
+20:57:18.407 I [FormMain] 切换主要页面：Link, -1
+20:57:19.472 I [MyRadioButton] 按下单选按钮：启动
+20:57:19.472 I [FormMain] 切换主要页面：Launch, -1
+20:57:21.609 I [MyIconButton] 按下图标按钮：BtnTitleClose
+20:57:21.614 I [FormMain] 收到关闭指令
+20:57:21.847 I [FormMain] 程序已退出，返回值：Success

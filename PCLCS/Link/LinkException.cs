@@ -25,7 +25,10 @@ namespace PCLCS.Link
             ["Link.Error.RoomBlocked"] = "你已被房主永久拉黑，无法进入该房间。",
             ["Link.Error.RoomRemoved"] = "你已被房主移出房间，请稍后再试。",
             ["Link.Error.RoomLocked"] = "当前房间已被房主锁定，禁止新玩家加入。",
+            ["Link.Error.WhitelistRequired"] = "该房间已开启【白名单】准入模式，你未在房主的准入名单中，无法加入。",
+            ["Link.Error.WhitelistDeviceMismatch"] = "你的游戏名在房主的白名单中，但绑定的设备特征码不匹配。若你近期更换了电脑、硬件或重装了系统，请告知房主右键你的名字点击【重置设备绑定】。",
             ["Link.Error.PremiumRequired"] = "该房间已开启【仅正版】模式，未检测到微软正版验证，无法加入。",
+            ["Link.Error.SecurityInterception"] = "联机核心程序被杀毒软件或系统策略拦截，请将启动器及联机组件加入白名单排除项。",
         };
 
         public LinkException(string textKey, params object[] args)
@@ -60,6 +63,22 @@ namespace PCLCS.Link
                 }
             }
             return key;
+        }
+    }
+
+    /// <summary>
+    /// Thrown when an antivirus or security policy blocks execution or extraction of link components.
+    /// </summary>
+    public sealed class SecurityInterceptionException : LinkException
+    {
+        public string BlockedPath { get; }
+        public string DiagnosticAdvice { get; }
+
+        public SecurityInterceptionException(string blockedPath, string diagnosticAdvice, Exception? inner = null)
+            : base(inner, "Link.Error.SecurityInterception")
+        {
+            BlockedPath = blockedPath ?? "";
+            DiagnosticAdvice = diagnosticAdvice ?? "";
         }
     }
 }

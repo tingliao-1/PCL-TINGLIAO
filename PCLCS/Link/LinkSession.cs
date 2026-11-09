@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using PCLCS.Link.Contracts;
 using PCLCS.Link.Minecraft;
 using PCLCS.Link.Room;
 using PCLCS.Link.Runtime;
@@ -91,6 +92,87 @@ namespace PCLCS.Link
         public NatKind LocalNat { get; private set; }
         public TimeSpan SearchTime { get; private set; }
         public LinkException? Error { get; private set; }
+        public GameVersionInfo? HostGameVersion { get; set; }
+
+        public LinkRoomSnapshotDto GetRoomSnapshot(bool isServerSide)
+        {
+            string pingText;
+            string pingToolTip;
+            if (isServerSide)
+            {
+                pingText = $"{ConnectedNodes} 节点";
+                pingToolTip = $"已连接公共中继节点：{ConnectedNodes} 个";
+            }
+            else
+            {
+                if (HostPeer?.LatencyMs.HasValue == true)
+                    pingText = $"{HostPeer.LatencyMs.Value:0} ms";
+                else
+                    pingText = "连接中";
+                pingToolTip = HostPeer?.IsDirect == true ? "与房主 P2P 直连" : "通过中继节点转发";
+            }
+
+            int count = Players?.Count ?? 0;
+            string playerCountSummary = $"{Math.Max(1, count)} 人";
+            string playerCountDetail = $"{count} 人在线";
+
+            string hintText;
+            int hintTheme; // 0 = Blue, 2 = Yellow
+            if (isServerSide)
+            {
+                if (DirectPeers > 0)
+                {
+                    hintText = $"已与 {DirectPeers} 位访客建立 P2P 直连通道，延迟极低。";
+                    hintTheme = 0; // Blue
+                }
+                else if (RelayedPeers > 0)
+                {
+                    hintText = "当前有访客通过中继节点传输，可在设置中切换或添加优质节点。";
+                    hintTheme = 2; // Yellow
+                }
+                else
+                {
+                    hintText = "房间已准备就绪，正在等待好友输入邀请码加入……";
+                    hintTheme = 0; // Blue
+                }
+            }
+            else
+            {
+                if (HostPeer?.IsDirect == true)
+                {
+                    hintText = "已与房主成功建立 P2P 直连通道，延迟接近局域网！";
+                    hintTheme = 0; // Blue
+                }
+                else
+                {
+                    hintText = "双方网络受限未能直连，当前正在通过公共中继节点进行加密转发。";
+                    hintTheme = 2; // Yellow
+                }
+            }
+
+            bool isLocalAdmin = !isServerSide && (IsLocalAdmin || _self?.Kind == PlayerKind.Admin);
+            var playerList = Players;
+            var viewDtos = new List<LinkPlayerViewDto>(playerList?.Count ?? 0);
+            if (playerList != null)
+            {
+                for (int i = 0; i < playerList.Count; i++)
+                {
+                    viewDtos.Add(new LinkPlayerViewDto(playerList[i], isServerSide, isLocalAdmin));
+                }
+            }
+
+            return new LinkRoomSnapshotDto(
+                isServerSide,
+                pingText,
+                pingToolTip,
+                playerCountSummary,
+                playerCountDetail,
+                hintText,
+                hintTheme,
+                viewDtos,
+                HostGameVersion
+            );
+        }
 
         public StepState GetStepState(LinkStep step)
         {
@@ -127,8 +209,19 @@ namespace PCLCS.Link
                 await GameAccount.RefreshAsync();
                 _self = PlayerProfile.CreateLocal(PlayerKind.Host);
 
+                try
+                {
+                    HostGameVersion = await GameVersionDetector.DetectAsync(port).ConfigureAwait(false);
+                    LinkLog.Info($"Host game version detected: {HostGameVersion?.DisplayText ?? "Unknown"}");
+                }
+                catch (Exception ex)
+                {
+                    LinkLog.Warn($"Failed to detect host game version: {ex.Message}");
+                }
+
                 _gate = GameProxy.Start(new IPEndPoint(IPAddress.Loopback, 0), port);
                 _server = RoomServer.Start(_self, _gate.Port);
+                _server.GameVersion = HostGameVersion;
                 _server.PlayersChanged += (sender, e) => Post(run, () =>
                 {
                     Players = _server?.GetPlayers() ?? Players;
@@ -232,6 +325,16 @@ namespace PCLCS.Link
 
                 _client = await ConnectRoomAsync(_serviceLocalPort, token);
                 int hostPort = await _client.GetServerPortAsync(token);
+
+                try
+                {
+                    HostGameVersion = await _client.GetGameVersionAsync(token).ConfigureAwait(false);
+                    LinkLog.Info($"Host game version received from room: {HostGameVersion?.DisplayText ?? "Unknown"}");
+                }
+                catch (Exception ex)
+                {
+                    LinkLog.Warn($"Failed to query host game version: {ex.Message}");
+                }
 
                 IsSharedWithLan = LinkSettings.ShareWithLan;
                 var bindAddress = IsSharedWithLan ? IPAddress.Any : IPAddress.Loopback;
@@ -348,7 +451,22 @@ namespace PCLCS.Link
                     {
                         _self = _self.WithLatency(HostPeer?.LatencyMs);
                         await _client.SendHeartbeatAsync(_self, token);
+                        bool isNowAdmin = _client.IsAdmin;
+                        if ((_self.Kind == PlayerKind.Admin) != isNowAdmin)
+                        {
+                            _self = _self.WithKind(isNowAdmin ? PlayerKind.Admin : PlayerKind.Guest);
+                        }
                         Players = MarkLocal(await _client.GetPlayersAsync(token));
+                        if (HostGameVersion == null)
+                        {
+                            try
+                            {
+                                HostGameVersion = await _client.GetGameVersionAsync(token).ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                            }
+                        }
                         failures = 0;
                     }
                     catch (Exception ex) when (RoomClient.IsConnectionError(ex) && !token.IsCancellationRequested)
@@ -373,6 +491,73 @@ namespace PCLCS.Link
         {
             get => _server?.PremiumOnly ?? false;
             set { if (_server != null) _server.PremiumOnly = value; }
+        }
+
+        public bool WhitelistOnly
+        {
+            get => _server?.WhitelistOnly ?? false;
+            set { if (_server != null) _server.WhitelistOnly = value; }
+        }
+
+        public void AddWhitelist(PlayerProfile player)
+        {
+            Whitelist.Add(player);
+            OnChanged();
+        }
+
+        public void RemoveWhitelist(PlayerProfile player)
+        {
+            Whitelist.Remove(player);
+            OnChanged();
+        }
+
+        public bool IsWhitelisted(PlayerProfile player)
+        {
+            return Whitelist.Contains(player);
+        }
+
+        public void ResetWhitelistBinding(PlayerProfile player)
+        {
+            if (player == null) return;
+            Whitelist.ResetBinding(player.Name);
+            OnChanged();
+        }
+
+        public void EnforceSecurityPolicies(bool evictNonPremium = true)
+        {
+            if (Role == LinkRole.Host && _server != null)
+            {
+                _server.EnforceSecurityPolicies(evictNonPremium);
+            }
+        }
+
+        public bool IsLocalAdmin => _client?.IsAdmin ?? false;
+        public string? AdminToken => _client?.AdminToken;
+
+        public void SetPlayerAdmin(string machineId, bool isAdmin)
+        {
+            if (Role != LinkRole.Host || _server == null)
+                return;
+
+            _server.SetAdmin(machineId, isAdmin);
+            Players = _server.GetPlayers();
+            OnChanged();
+        }
+
+        public async Task KickPlayerAsync(PlayerProfile player)
+        {
+            if (player == null) return;
+
+            if (Role == LinkRole.Host && _server != null)
+            {
+                RemovePlayer(player, block: false);
+            }
+            else if (Role == LinkRole.Guest && _client != null && IsLocalAdmin && !string.IsNullOrEmpty(AdminToken))
+            {
+                await _client.SendAdminKickAsync(AdminToken!, player.MachineId, CancellationToken.None);
+                Players = MarkLocal(await _client.GetPlayersAsync(CancellationToken.None));
+                OnChanged();
+            }
         }
 
         public void RemovePlayer(PlayerProfile player, bool block)
@@ -538,7 +723,8 @@ namespace PCLCS.Link
 
         private IReadOnlyList<PlayerProfile> MarkLocal(IReadOnlyList<PlayerProfile> players)
         {
-            return players.Select(p => p.MachineId == _self?.MachineId ? p.WithKind(PlayerKind.Local) : p).ToList();
+            string? myMachineId = _self?.MachineId;
+            return players.Select(p => p.MachineId == myMachineId ? p.WithLocal(true) : p).ToList();
         }
 
         private void SetStep(LinkStep step, StepState state)

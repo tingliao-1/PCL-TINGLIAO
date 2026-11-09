@@ -1,4 +1,4 @@
-'由于包含加解密等安全信息，本文件中的部分代码已被删除
+﻿'由于包含加解密等安全信息，本文件中的部分代码已被删除
 
 Friend Module ModSecret
 
@@ -330,11 +330,6 @@ Friend Module ModSecret
             Return DonationRank.None
         End Get
     End Property
-
-    Public Sub InputPotatoCode(IsUpdating As Boolean)
-    End Sub
-    Friend Sub GeneratePotatoCode()
-    End Sub
 
     ''' <summary>
     ''' 获取设备识别码。

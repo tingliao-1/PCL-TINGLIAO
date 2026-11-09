@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using PCLCS.Link.Room;
+using PCLCS.Link.Runtime;
 
 namespace PCLCS.Link
 {
@@ -94,23 +95,20 @@ namespace PCLCS.Link
 
             try
             {
-                if (File.Exists(FilePath))
+                string? text = AtomicFile.ReadAllTextWithBackup(FilePath);
+                if (!string.IsNullOrEmpty(text) && Json.TryParse(text) is object[] items)
                 {
-                    string text = File.ReadAllText(FilePath);
-                    if (Json.TryParse(text) is object[] items)
+                    var list = new List<BlockedPlayer>();
+                    foreach (var item in items.OfType<Dictionary<string, object>>())
                     {
-                        var list = new List<BlockedPlayer>();
-                        foreach (var item in items.OfType<Dictionary<string, object>>())
-                        {
-                            string machineId = item.TryGetValue("machine_id", out var m) ? m?.ToString() ?? "" : "";
-                            string name = item.TryGetValue("name", out var n) ? n?.ToString() ?? "" : "";
-                            string? gameName = item.TryGetValue("game_name", out var g) ? g?.ToString() : null;
-                            string? uuid = item.TryGetValue("uuid", out var u) ? u?.ToString() : null;
-                            list.Add(new BlockedPlayer(machineId, name, gameName, uuid, DateTime.Now));
-                        }
-                        _players = list;
-                        return list;
+                        string machineId = item.TryGetValue("machine_id", out var m) ? m?.ToString() ?? "" : "";
+                        string name = item.TryGetValue("name", out var n) ? n?.ToString() ?? "" : "";
+                        string? gameName = item.TryGetValue("game_name", out var g) ? g?.ToString() : null;
+                        string? uuid = item.TryGetValue("uuid", out var u) ? u?.ToString() : null;
+                        list.Add(new BlockedPlayer(machineId, name, gameName, uuid, DateTime.Now));
                     }
+                    _players = list;
+                    return list;
                 }
             }
             catch
@@ -138,7 +136,7 @@ namespace PCLCS.Link
                     if (p.Uuid != null) dict["uuid"] = p.Uuid;
                     list.Add(dict);
                 }
-                File.WriteAllText(FilePath, Json.Serialize(list));
+                AtomicFile.WriteAllTextAtomic(FilePath, Json.Serialize(list));
             }
             catch
             {
